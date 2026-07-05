@@ -51,11 +51,14 @@
         .cell.taken {
             cursor: not-allowed;
         }
-        #winCanvas {
+        /* Новая CSS-линия */
+        .strike-line {
             position: absolute;
-            top: 0;
-            left: 0;
-            z-index: 2;
+            background-color: #E91E63;
+            border-radius: 4px;
+            z-index: 5;
+            display: none;
+            transform-origin: left center;
             pointer-events: none;
         }
         .status {
@@ -63,6 +66,12 @@
             font-size: 1.2rem;
             font-weight: bold;
             height: 1.5em;
+            z-index: 10;
+        }
+        .version {
+            margin-top: 30px;
+            font-size: 0.8rem;
+            color: #999;
             z-index: 10;
         }
         button, select {
@@ -99,10 +108,11 @@
         <div class="cell" data-index="7"></div>
         <div class="cell" data-index="8"></div>
     </div>
-    <canvas id="winCanvas" width="310" height="310"></canvas>
+    <div id="strike" class="strike-line"></div>
 </div>
 
 <div class="status" id="status">Ход Х</div>
+<div class="version">v3</div>
 
 <script>
     const board = document.getElementById('board');
@@ -110,17 +120,24 @@
     const statusText = document.getElementById('status');
     const resetBtn = document.getElementById('reset');
     const modeSelect = document.getElementById('mode');
-    const canvas = document.getElementById('winCanvas');
-    const ctx = canvas.getContext('2d');
+    const strike = document.getElementById('strike');
 
     let gameState = ["", "", "", "", "", "", "", "", ""];
     let currentPlayer = "X";
     let isGameActive = true;
 
+    // Конфигурация линий для каждого выигрышного комбо внутри контейнера 310x310
     const winningConditions = [
-        [0, 1, 2], [3, 4, 5], [6, 7, 8], // Строки
-        [0, 3, 6], [1, 4, 7], [2, 5, 8], // Столбцы
-        [0, 4, 8], [2, 4, 6]             // Диагонали
+        { combo: [0, 1, 2], style: { width: '290px', height: '8px', top: '46px', left: '10px', transform: 'none' } },
+        { combo: [3, 4, 5], style: { width: '290px', height: '8px', top: '151px', left: '10px', transform: 'none' } },
+        { combo: [6, 7, 8], style: { width: '290px', height: '8px', top: '256px', left: '10px', transform: 'none' } },
+        
+        { combo: [0, 3, 6], style: { width: '8px', height: '290px', top: '10px', left: '46px', transform: 'none' } },
+        { combo: [1, 4, 7], style: { width: '8px', height: '290px', top: '10px', left: '151px', transform: 'none' } },
+        { combo: [2, 5, 8], style: { width: '8px', height: '290px', top: '10px', left: '256px', transform: 'none' } },
+        
+        { combo: [0, 4, 8], style: { width: '395px', height: '8px', top: '10px', left: '10px', transform: 'rotate(45deg)' } },
+        { combo: [2, 4, 6], style: { width: '395px', height: '8px', top: '10px', left: '300px', transform: 'rotate(135deg)' } }
     ];
 
     function handleCellClick(e) {
@@ -132,11 +149,11 @@
         makeMove(clickedCell, clickedCellIndex);
 
         if (isGameActive && modeSelect.value === 'ai' && currentPlayer === 'O') {
-            board.style.pointerEvents = 'none'; // Блокируем клики во время хода робота
+            board.style.pointerEvents = 'none';
             setTimeout(() => {
                 aiMove();
                 board.style.pointerEvents = 'auto';
-            }, 500);
+            }, 400);
         }
     }
 
@@ -146,9 +163,9 @@
         cell.classList.add('taken');
         
         if (currentPlayer === 'X') {
-            cell.style.color = '#2196F3'; // Синие крестики
+            cell.style.color = '#2196F3';
         } else {
-            cell.style.color = '#4CAF50'; // Зеленые нолики
+            cell.style.color = '#4CAF50';
         }
 
         checkResult();
@@ -157,38 +174,22 @@
     function aiMove() {
         if (!isGameActive) return;
 
-        // 1. Проверяем, может ли робот (О) выиграть прямо сейчас
         const winMove = findBestMove('O');
-        if (winMove !== null) {
-            executeAiMove(winMove);
-            return;
-        }
+        if (winMove !== null) { return executeAiMove(winMove); }
 
-        // 2. Проверяем, нужно ли блокировать ребенка (Х)
-        // Добавляем элемент случайности: робот блокирует в 75% случаев, чтобы иногда ошибаться
         if (Math.random() < 0.75) {
             const blockMove = findBestMove('X');
-            if (blockMove !== null) {
-                executeAiMove(blockMove);
-                return;
-            }
+            if (blockMove !== null) { return executeAiMove(blockMove); }
         }
 
-        // 3. Стратегические ходы: занимаем центр, если свободен
-        if (gameState[4] === "") {
-            executeAiMove(4);
-            return;
-        }
+        if (gameState[4] === "") { return executeAiMove(4); }
 
-        // 4. Занимаем углы, если свободны
         const corners = [0, 2, 6, 8].filter(idx => gameState[idx] === "");
         if (corners.length > 0 && Math.random() < 0.6) {
             const randomCorner = corners[Math.floor(Math.random() * corners.length)];
-            executeAiMove(randomCorner);
-            return;
+            return executeAiMove(randomCorner);
         }
 
-        // 5. Полный рандом из оставшихся клеток
         const emptyCells = gameState.reduce((acc, val, idx) => val === "" ? acc.concat(idx) : acc, []);
         if (emptyCells.length > 0) {
             const randomIndex = emptyCells[Math.floor(Math.random() * emptyCells.length)];
@@ -197,16 +198,13 @@
     }
 
     function executeAiMove(index) {
-        const targetCell = cells[index];
-        makeMove(targetCell, index);
+        makeMove(cells[index], index);
     }
 
     function findBestMove(player) {
-        for (let condition of winningConditions) {
-            const [a, b, c] = condition;
+        for (let cond of winningConditions) {
+            const [a, b, c] = cond.combo;
             const values = [gameState[a], gameState[b], gameState[c]];
-            
-            // Если две клетки заняты игроком, а третья пуста — это целевая клетка
             if (values.filter(v => v === player).length === 2 && values.filter(v => v === "").length === 1) {
                 if (gameState[a] === "") return a;
                 if (gameState[b] === "") return b;
@@ -216,39 +214,25 @@
         return null;
     }
 
-    function drawWinLine(condition) {
-        const startCell = cells[condition[0]];
-        const endCell = cells[condition[2]];
-
-        const startRect = startCell.getBoundingClientRect();
-        const endRect = endCell.getBoundingClientRect();
-        const containerRect = board.getBoundingClientRect();
-
-        // Вычисляем координаты относительно контейнера игры
-        const x1 = startRect.left - containerRect.left + startRect.width / 2;
-        const y1 = startRect.top - containerRect.top + startRect.height / 2;
-        const x2 = endRect.left - containerRect.left + endRect.width / 2;
-        const y2 = endRect.top - containerRect.top + endRect.height / 2;
-
-        ctx.strokeStyle = '#E91E63'; // Красивый толстый малиново-красный цвет
-        ctx.lineWidth = 8;
-        ctx.lineCap = 'round';
-        
-        ctx.beginPath();
-        ctx.moveTo(x1, y1);
-        ctx.lineTo(x2, y2);
-        ctx.stroke();
+    function drawWinLine(conditionConfig) {
+        const s = conditionConfig.style;
+        strike.style.width = s.width;
+        strike.style.height = s.height;
+        strike.style.top = s.top;
+        strike.style.left = s.left;
+        strike.style.transform = s.transform;
+        strike.style.display = 'block';
     }
 
     function checkResult() {
         let roundWon = false;
-        let winningCombo = null;
+        let winningConfig = null;
 
         for (let i = 0; i < winningConditions.length; i++) {
-            const [a, b, c] = winningConditions[i];
+            const [a, b, c] = winningConditions[i].combo;
             if (gameState[a] && gameState[a] === gameState[b] && gameState[a] === gameState[c]) {
                 roundWon = true;
-                winningCombo = winningConditions[i];
+                winningConfig = winningConditions[i];
                 break;
             }
         }
@@ -256,7 +240,7 @@
         if (roundWon) {
             statusText.innerText = `Победил игрок ${currentPlayer}!`;
             isGameActive = false;
-            drawWinLine(winningCombo);
+            drawWinLine(winningConfig);
             return;
         }
 
@@ -275,7 +259,7 @@
         currentPlayer = "X";
         isGameActive = true;
         statusText.innerText = `Ход ${currentPlayer}`;
-        ctx.clearRect(0, 0, canvas.width, canvas.height); // Стираем линию
+        strike.style.display = 'none';
         cells.forEach(cell => {
             cell.innerText = "";
             cell.classList.remove('taken');
