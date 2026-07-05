@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Крестики-Нолики</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f2f5;
+        }
+        .controls {
+            margin-bottom: 20px;
+        }
+        .board {
+            display: grid;
+            grid-template-columns: repeat(3, 100px);
+            grid-template-rows: repeat(3, 100px);
+            gap: 5px;
+        }
+        .cell {
+            width: 100px;
+            height: 100px;
+            background-color: #fff;
+            border: 2px solid #333;
+            font-size: 2.5rem;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            user-select: none;
+        }
+        .cell.taken {
+            cursor: not-allowed;
+        }
+        .status {
+            margin-top: 20px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            height: 1.5em;
+        }
+        button {
+            padding: 8px 16px;
+            font-size: 1rem;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+<div class="controls">
+    <label>
+        Режим игры:
+        <select id="mode">
+            <option value="ai">Против робота (0)</option>
+            <option value="pvp">Два игрока</option>
+        </select>
+    </label>
+    <button id="reset">Сброс</button>
+</div>
+
+<div class="board" id="board">
+    <div class="cell" data-index="0"></div>
+    <div class="cell" data-index="1"></div>
+    <div class="cell" data-index="2"></div>
+    <div class="cell" data-index="3"></div>
+    <div class="cell" data-index="4"></div>
+    <div class="cell" data-index="5"></div>
+    <div class="cell" data-index="6"></div>
+    <div class="cell" data-index="7"></div>
+    <div class="cell" data-index="8"></div>
+</div>
+
+<div class="status" id="status">Ход Х</div>
+
+<script>
+    const board = document.getElementById('board');
+    const cells = document.querySelectorAll('.cell');
+    const statusText = document.getElementById('status');
+    const resetBtn = document.getElementById('reset');
+    const modeSelect = document.getElementById('mode');
+
+    let gameState = ["", "", "", "", "", "", "", "", ""];
+    let currentPlayer = "X";
+    let isGameActive = true;
+
+    const winningConditions = [
+        [0, 1, 2], [3, 4, 5], [6, 7, 8],
+        [0, 3, 6], [1, 4, 7], [2, 5, 8],
+        [0, 4, 8], [2, 4, 6]
+    ];
+
+    function handleCellClick(e) {
+        const clickedCell = e.target;
+        const clickedCellIndex = parseInt(clickedCell.getAttribute('data-index'));
+
+        if (gameState[clickedCellIndex] !== "" || !isGameActive) return;
+
+        makeMove(clickedCell, clickedCellIndex);
+
+        if (isGameActive && modeSelect.value === 'ai' && currentPlayer === 'O') {
+            setTimeout(aiMove, 300);
+        }
+    }
+
+    function makeMove(cell, index) {
+        gameState[index] = currentPlayer;
+        cell.innerText = currentPlayer;
+        cell.classList.add('taken');
+
+        checkResult();
+    }
+
+    function aiMove() {
+        if (!isGameActive) return;
+
+        // Минимакс здесь избыточен для базовой логики, берем случайную пустую клетку
+        const emptyCells = gameState.reduce((acc, val, idx) => val === "" ? acc.concat(idx) : acc, []);
+        
+        if (emptyCells.length > 0) {
+            const randomIndex = emptyCells[Math.floor(Math.random() * emptyCells.length)];
+            const targetCell = cells[randomIndex];
+            makeMove(targetCell, randomIndex);
+        }
+    }
+
+    function checkResult() {
+        let roundWon = false;
+        for (let i = 0; i < winningConditions.length; i++) {
+            const [a, b, c] = winningConditions[i];
+            if (gameState[a] && gameState[a] === gameState[b] && gameState[a] === gameState[c]) {
+                roundWon = true;
+                break;
+            }
+        }
+
+        if (roundWon) {
+            statusText.innerText = `Победил игрок ${currentPlayer}!`;
+            isGameActive = false;
+            return;
+        }
+
+        if (!gameState.includes("")) {
+            statusText.innerText = "Ничья!";
+            isGameActive = false;
+            return;
+        }
+
+        currentPlayer = currentPlayer === "X" ? "O" : "X";
+        statusText.innerText = `Ход ${currentPlayer}`;
+    }
+
+    function restartGame() {
+        gameState = ["", "", "", "", "", "", "", "", ""];
+        currentPlayer = "X";
+        isGameActive = true;
+        statusText.innerText = `Ход ${currentPlayer}`;
+        cells.forEach(cell => {
+            cell.innerText = "";
+            cell.classList.remove('taken');
+        });
+    }
+
+    board.addEventListener('click', handleCellClick);
+    resetBtn.addEventListener('click', restartGame);
+    modeSelect.addEventListener('change', restartGame);
+</script>
+
+</body>
+</html>
