@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Tic Tac Toe Easy Go — Email confirmed</title>
+  <style>
+    :root { color-scheme: light dark; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+    body { min-height: 100vh; margin: 0; display: grid; place-items: center; background: #f4f3fb; color: #191824; }
+    main { width: min(420px, calc(100% - 40px)); box-sizing: border-box; padding: 38px 28px; text-align: center; background: white; border-radius: 28px; box-shadow: 0 18px 60px rgba(43, 36, 92, .14); }
+    .mark { width: 76px; height: 76px; margin: 0 auto 22px; display: grid; place-items: center; border-radius: 24px; color: white; font-size: 38px; font-weight: 800; background: linear-gradient(145deg, #6557ef, #46d9ba); }
+    h1 { margin: 0 0 12px; font-size: 28px; }
+    p { margin: 0 0 26px; color: #666377; line-height: 1.5; }
+    a { display: inline-block; padding: 14px 22px; border-radius: 14px; color: white; background: #6257e8; font-weight: 700; text-decoration: none; }
+    .error .mark { background: #d7465f; }
+    .error a { display: none; }
+    @media (prefers-color-scheme: dark) {
+      body { background: #121117; color: #f7f5ff; }
+      main { background: #211f2a; }
+      p { color: #bbb7ca; }
+    }
+  </style>
+</head>
+<body>
+  <main id="card">
+    <div class="mark" aria-hidden="true">XO</div>
+    <h1 id="title">Email confirmed</h1>
+    <p id="message">Your Tic Tac Toe Easy Go account is ready. Return to the app to start playing.</p>
+    <a id="open-app" href="tictactoeeasygo://auth-callback">Open Tic Tac Toe Easy Go</a>
+  </main>
+  <script>
+    const translations = {
+      en: {
+        success: 'Email confirmed',
+        message: 'Your Tic Tac Toe Easy Go account is ready. Return to the app to start playing.',
+        button: 'Open Tic Tac Toe Easy Go',
+        error: 'Confirmation failed',
+        errorMessage: 'The link may have expired or already been used. Return to Tic Tac Toe Easy Go and try again.'
+      },
+      es: {
+        success: 'Correo confirmado',
+        message: 'Tu cuenta de Tic Tac Toe Easy Go está lista. Vuelve a la aplicación para empezar a jugar.',
+        button: 'Abrir Tic Tac Toe Easy Go',
+        error: 'No se pudo confirmar',
+        errorMessage: 'Es posible que el enlace haya caducado o ya se haya utilizado. Vuelve a Tic Tac Toe Easy Go e inténtalo de nuevo.'
+      },
+      ru: {
+        success: 'Email подтверждён',
+        message: 'Аккаунт Tic Tac Toe Easy Go готов. Вернитесь в приложение, чтобы начать играть.',
+        button: 'Открыть Tic Tac Toe Easy Go',
+        error: 'Не удалось подтвердить email',
+        errorMessage: 'Возможно, ссылка устарела или уже была использована. Вернитесь в Tic Tac Toe Easy Go и попробуйте ещё раз.'
+      }
+    };
+
+    const language = (navigator.language || 'en').slice(0, 2);
+    const copy = translations[language] || translations.en;
+    const query = new URLSearchParams(location.search);
+    const hash = new URLSearchParams(location.hash.replace(/^#/, ''));
+    const error = query.get('error') || hash.get('error') || query.get('error_code') || hash.get('error_code');
+    const deepLink = `tictactoeeasygo://auth-callback${location.search}${location.hash}`;
+    const card = document.getElementById('card');
+    const title = document.getElementById('title');
+    const message = document.getElementById('message');
+    const button = document.getElementById('open-app');
+
+    if (error) {
+      card.classList.add('error');
+      title.textContent = copy.error;
+      message.textContent = copy.errorMessage;
+    } else {
+      title.textContent = copy.success;
+      message.textContent = copy.message;
+      button.textContent = copy.button;
+      button.href = deepLink;
+      setTimeout(() => { location.href = deepLink; }, 650);
+    }
+  </script>
+</body>
+</html>
