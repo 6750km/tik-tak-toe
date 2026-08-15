@@ -62,12 +62,12 @@ struct HomeView: View {
         }
         .padding(24)
         .navigationDestination(item: $selectedMode) { mode in
-            GameView(mode: mode, language: language)
+            GameView(mode: mode, language: language, themePreference: $themePreference)
         }
         .toolbar {
             ToolbarItem(placement: .topBarLeading) {
                 Button {
-                    themePreference = colorScheme == .dark ? "light" : "dark"
+                    toggleTheme()
                 } label: {
                     Image(systemName: colorScheme == .dark ? "sun.max.fill" : "moon.fill")
                 }
@@ -75,7 +75,7 @@ struct HomeView: View {
             }
             ToolbarItem(placement: .topBarTrailing) {
                 Button { showingAccount = true } label: {
-                    Image(systemName: auth.isAuthenticated ? "person.crop.circle.fill" : "person.crop.circle")
+                    accountButtonImage
                 }
                 .accessibilityLabel(copy.text(.account))
             }
@@ -96,6 +96,32 @@ struct HomeView: View {
         .task(id: auth.user?.id) {
             guard auth.isAuthenticated else { return }
             await auth.loadProfile()
+        }
+    }
+
+    @ViewBuilder private var accountButtonImage: some View {
+        if auth.isAuthenticated, let url = auth.avatarURL {
+            AsyncImage(url: url) { phase in
+                if let image = phase.image {
+                    image.resizable().scaledToFill()
+                } else {
+                    Image(systemName: "person.crop.circle.fill")
+                        .resizable()
+                        .scaledToFit()
+                }
+            }
+            .frame(width: 28, height: 28)
+            .clipShape(Circle())
+        } else {
+            Image(systemName: auth.isAuthenticated ? "person.crop.circle.fill" : "person.crop.circle")
+        }
+    }
+
+    private func toggleTheme() {
+        var transaction = Transaction()
+        transaction.disablesAnimations = true
+        withTransaction(transaction) {
+            themePreference = colorScheme == .dark ? "light" : "dark"
         }
     }
 

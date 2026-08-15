@@ -90,10 +90,28 @@ final class AuthStore: ObservableObject {
         }
     }
 
-    func signIn(email: String, password: String) async {
-        guard let client else { return configurationError() }
-        await perform {
-            _ = try await client.auth.signIn(email: email, password: password)
+    @discardableResult
+    func signIn(email: String, password: String) async -> Bool {
+        guard let client else {
+            configurationError()
+            return false
+        }
+        isLoading = true
+        errorMessage = nil
+        noticeMessage = nil
+        defer { isLoading = false }
+        do {
+            let signedInSession = try await client.auth.signIn(email: email, password: password)
+            let persistedSession = try await client.auth.session
+            guard persistedSession.user.id == signedInSession.user.id else {
+                errorMessage = "The signed-in session could not be restored. Please try again."
+                return false
+            }
+            user = persistedSession.user
+            return await loadProfile()
+        } catch {
+            errorMessage = error.localizedDescription
+            return false
         }
     }
 
@@ -155,17 +173,29 @@ final class AuthStore: ObservableObject {
 
     @discardableResult
     func loadProfile() async -> Bool {
-        guard let client, user != nil else { return false }
+        guard let client, let displayedUser = user else { return false }
         isProfileLoading = true
         defer { isProfileLoading = false }
         do {
+            // An auth event can publish the user just before the access token is ready for
+            // PostgREST. Resolve (and refresh, when necessary) the session before every
+            // protected profile read so the request cannot accidentally run as `anon`.
+            let session = try await client.auth.session
+            guard session.user.id == displayedUser.id else {
+                errorMessage = "Your session changed. Sign in again."
+                return false
+            }
+
             let loaded: UserProfile = try await client
                 .from("profiles")
                 .select()
+                .eq("id", value: displayedUser.id)
                 .single()
                 .execute()
                 .value
+            guard user?.id == displayedUser.id else { return false }
             profile = loaded
+            errorMessage = nil
             return true
         } catch {
             errorMessage = error.localizedDescription
@@ -223,15 +253,13 @@ final class AuthStore: ObservableObject {
         do {
             session = try await client.auth.session
             guard session.user.id == displayedUser.id else {
-                user = session.user
-                profile = nil
                 errorMessage = "Your session changed. Sign in again before uploading a photo."
                 return .notSignedIn
             }
         } catch {
-            user = nil
-            profile = nil
-            errorMessage = error.localizedDescription
+            // A failed protected action must not mutate authentication state. Only the
+            // auth-state stream (or an explicit sign out) is allowed to clear the user.
+            errorMessage = "Your session needs to be refreshed. Sign in again before uploading a photo."
             return .notSignedIn
         }
 
@@ -261,6 +289,8 @@ final class AuthStore: ObservableObject {
                     .execute()
                     .value
             } catch {
+                // The database link was not saved, so avoid leaving an orphaned object.
+                _ = try? await client.storage.from("avatars").remove(paths: [path])
                 errorMessage = error.localizedDescription
                 return .profileUpdateFailed
             }
@@ -296,7 +326,8 @@ final class AuthStore: ObservableObject {
             await loadProfile()
         } catch {
             didRecordAppOpen = false
-            errorMessage = error.localizedDescription
+            // Usage analytics must never replace an otherwise healthy account screen
+            // with a technical database error. A later app activation retries it.
         }
     }
 

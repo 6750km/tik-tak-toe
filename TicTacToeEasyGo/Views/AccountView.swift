@@ -40,6 +40,8 @@ struct AccountView: View {
 
 private struct AuthView: View {
     @EnvironmentObject private var auth: AuthStore
+    @EnvironmentObject private var quota: GameQuotaStore
+    @Environment(\.dismiss) private var dismiss
     let language: AppLanguage
     @State private var isCreatingAccount = false
     @State private var showingReset = false
@@ -77,7 +79,12 @@ private struct AuthView: View {
                     if isCreatingAccount {
                         await auth.signUp(name: name, email: email, password: password)
                     } else {
-                        await auth.signIn(email: email, password: password)
+                        guard await auth.signIn(email: email, password: password) else { return }
+                        if await auth.claimWelcomeGames(guestGamesRemaining: quota.gamesRemaining) {
+                            quota.markGuestGamesTransferred()
+                        }
+                        guard await auth.loadProfile() else { return }
+                        dismiss()
                     }
                 }
             } label: {

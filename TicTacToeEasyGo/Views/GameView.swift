@@ -4,8 +4,10 @@ struct GameView: View {
     @EnvironmentObject private var quota: GameQuotaStore
     @EnvironmentObject private var auth: AuthStore
     @Environment(\.dismiss) private var dismiss
+    @Environment(\.colorScheme) private var colorScheme
     let mode: GameMode
     let language: AppLanguage
+    @Binding var themePreference: String
 
     @State private var engine = GameEngine()
     @State private var computerThinking = false
@@ -37,7 +39,14 @@ struct GameView: View {
         .padding(24)
         .navigationTitle(modeTitle)
         .navigationBarTitleDisplayMode(.inline)
-        .disabled(computerThinking)
+        .toolbar {
+            ToolbarItem(placement: .topBarTrailing) {
+                Button { toggleTheme() } label: {
+                    Image(systemName: colorScheme == .dark ? "sun.max.fill" : "moon.fill")
+                }
+                .accessibilityLabel(copy.text(colorScheme == .dark ? .lightTheme : .darkTheme))
+            }
+        }
         .onChange(of: engine.result) { _, newResult in
             guard newResult != .inProgress, !didRecordCurrentGame else { return }
             didRecordCurrentGame = true
@@ -81,7 +90,7 @@ struct GameView: View {
                     Button { play(at: index) } label: {
                         ZStack {
                             RoundedRectangle(cornerRadius: 18)
-                                .fill(Color.secondary.opacity(0.10))
+                                .fill(cellBackgroundColor)
                             if let mark = engine.board[index] {
                                 Text(mark.rawValue)
                                     .font(.system(size: cellSize * 0.55, weight: .bold, design: .rounded))
@@ -90,7 +99,7 @@ struct GameView: View {
                         }
                     }
                     .buttonStyle(.plain)
-                    .disabled(engine.board[index] != nil || engine.result != .inProgress)
+                    .disabled(computerThinking || engine.board[index] != nil || engine.result != .inProgress)
                     .frame(width: cellSize, height: cellSize)
                 }
             }
@@ -109,10 +118,13 @@ struct GameView: View {
 
         computerThinking = true
         Task { @MainActor in
-            try? await Task.sleep(for: .milliseconds(350))
-            let move = mode == .professional
-                ? GameEngine.professionalMove(on: engine.board)
-                : GameEngine.beginnerMove(on: engine.board)
+            let board = engine.board
+            let selectedMode = mode
+            let move = await Task.detached(priority: .userInitiated) {
+                selectedMode == .professional
+                    ? GameEngine.professionalMove(on: board)
+                    : GameEngine.beginnerMove(on: board)
+            }.value
             if let move { _ = engine.play(at: move) }
             computerThinking = false
         }
@@ -134,6 +146,20 @@ struct GameView: View {
         case .professional: copy.text(.professional)
         case .twoPlayers: copy.text(.twoPlayers)
         }
+    }
+
+    private func toggleTheme() {
+        var transaction = Transaction()
+        transaction.disablesAnimations = true
+        withTransaction(transaction) {
+            themePreference = colorScheme == .dark ? "light" : "dark"
+        }
+    }
+
+    private var cellBackgroundColor: Color {
+        colorScheme == .dark
+            ? Color.white.opacity(0.16)
+            : Color.secondary.opacity(0.10)
     }
 }
 
