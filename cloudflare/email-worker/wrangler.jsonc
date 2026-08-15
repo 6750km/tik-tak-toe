@@ -1,0 +1,12 @@
+{
+  "name": "kiki-support-notifier",
+  "main": "src/index.js",
+  "compatibility_date": "2026-08-15",
+  "workers_dev": false,
+  "send_email": [
+    {
+      "name": "SUPPORT_EMAIL",
+      "destination_address": "6750km@gmail.com"
+    }
+  ]
+}
