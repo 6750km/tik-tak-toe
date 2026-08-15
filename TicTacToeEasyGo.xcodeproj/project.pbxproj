@@ -1,0 +1,195 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		A00000000000000000000001 /* TicTacToeEasyGoApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = B00000000000000000000001 /* TicTacToeEasyGoApp.swift */; };
+		A00000000000000000000002 /* GameModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = B00000000000000000000002 /* GameModels.swift */; };
+		A00000000000000000000003 /* GameEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = B00000000000000000000003 /* GameEngine.swift */; };
+		A00000000000000000000004 /* GameQuotaStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = B00000000000000000000004 /* GameQuotaStore.swift */; };
+		A00000000000000000000005 /* AppLanguage.swift in Sources */ = {isa = PBXBuildFile; fileRef = B00000000000000000000005 /* AppLanguage.swift */; };
+		A00000000000000000000006 /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B00000000000000000000006 /* RootView.swift */; };
+		A00000000000000000000007 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B00000000000000000000007 /* HomeView.swift */; };
+		A00000000000000000000008 /* GameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B00000000000000000000008 /* GameView.swift */; };
+		A00000000000000000000009 /* PaywallView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B00000000000000000000009 /* PaywallView.swift */; };
+		A0000000000000000000000A /* GameEngineTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0000000000000000000000A /* GameEngineTests.swift */; };
+		A0000000000000000000000B /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B0000000000000000000000D /* XCTest.framework */; };
+		A0000000000000000000000C /* Supabase in Frameworks */ = {isa = PBXBuildFile; productRef = L00000000000000000000002 /* Supabase */; };
+		A0000000000000000000000D /* SupabaseConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0000000000000000000000E /* SupabaseConfiguration.swift */; };
+		A0000000000000000000000E /* AuthStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0000000000000000000000F /* AuthStore.swift */; };
+		A0000000000000000000000F /* AccountView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B00000000000000000000010 /* AccountView.swift */; };
+		A00000000000000000000010 /* AvatarCropView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B00000000000000000000013 /* AvatarCropView.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		C00000000000000000000001 = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E00000000000000000000001 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = D00000000000000000000001;
+			remoteInfo = TicTacToeEasyGo;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		B00000000000000000000001 /* TicTacToeEasyGoApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicTacToeEasyGoApp.swift; sourceTree = "<group>"; };
+		B00000000000000000000002 /* GameModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameModels.swift; sourceTree = "<group>"; };
+		B00000000000000000000003 /* GameEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameEngine.swift; sourceTree = "<group>"; };
+		B00000000000000000000004 /* GameQuotaStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameQuotaStore.swift; sourceTree = "<group>"; };
+		B00000000000000000000005 /* AppLanguage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppLanguage.swift; sourceTree = "<group>"; };
+		B00000000000000000000006 /* RootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
+		B00000000000000000000007 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
+		B00000000000000000000008 /* GameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameView.swift; sourceTree = "<group>"; };
+		B00000000000000000000009 /* PaywallView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaywallView.swift; sourceTree = "<group>"; };
+		B0000000000000000000000A /* GameEngineTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameEngineTests.swift; sourceTree = "<group>"; };
+		B0000000000000000000000B /* TicTacToeEasyGo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TicTacToeEasyGo.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		B0000000000000000000000C /* TicTacToeEasyGoTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TicTacToeEasyGoTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		B0000000000000000000000D /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = System/Library/Frameworks/XCTest.framework; sourceTree = SDKROOT; };
+		B0000000000000000000000E /* SupabaseConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SupabaseConfiguration.swift; sourceTree = "<group>"; };
+		B0000000000000000000000F /* AuthStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthStore.swift; sourceTree = "<group>"; };
+		B00000000000000000000010 /* AccountView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountView.swift; sourceTree = "<group>"; };
+		B00000000000000000000011 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		B00000000000000000000012 /* Config.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
+		B00000000000000000000013 /* AvatarCropView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AvatarCropView.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		F00000000000000000000001 = {isa = PBXFrameworksBuildPhase; buildActionMask = 2147483647; files = (A0000000000000000000000C /* Supabase in Frameworks */,); runOnlyForDeploymentPostprocessing = 0; };
+		F00000000000000000000002 = {isa = PBXFrameworksBuildPhase; buildActionMask = 2147483647; files = (A0000000000000000000000B /* XCTest.framework in Frameworks */,); runOnlyForDeploymentPostprocessing = 0; };
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		G00000000000000000000001 = {
+			isa = PBXGroup;
+			children = (G00000000000000000000002 /* TicTacToeEasyGo */, G00000000000000000000007 /* TicTacToeEasyGoTests */, B00000000000000000000012 /* Config.xcconfig */, G00000000000000000000008 /* Frameworks */, G00000000000000000000009 /* Products */);
+			sourceTree = "<group>";
+		};
+		G00000000000000000000002 /* TicTacToeEasyGo */ = {
+			isa = PBXGroup;
+			children = (B00000000000000000000001 /* TicTacToeEasyGoApp.swift */, B00000000000000000000011 /* Info.plist */, G00000000000000000000003 /* Models */, G00000000000000000000004 /* Services */, G00000000000000000000005 /* Localization */, G00000000000000000000006 /* Views */);
+			path = TicTacToeEasyGo;
+			sourceTree = "<group>";
+		};
+		G00000000000000000000003 /* Models */ = {isa = PBXGroup; children = (B00000000000000000000002 /* GameModels.swift */,); path = Models; sourceTree = "<group>"; };
+		G00000000000000000000004 /* Services */ = {isa = PBXGroup; children = (B00000000000000000000003 /* GameEngine.swift */, B00000000000000000000004 /* GameQuotaStore.swift */, B0000000000000000000000E /* SupabaseConfiguration.swift */, B0000000000000000000000F /* AuthStore.swift */,); path = Services; sourceTree = "<group>"; };
+		G00000000000000000000005 /* Localization */ = {isa = PBXGroup; children = (B00000000000000000000005 /* AppLanguage.swift */,); path = Localization; sourceTree = "<group>"; };
+		G00000000000000000000006 /* Views */ = {isa = PBXGroup; children = (B00000000000000000000006 /* RootView.swift */, B00000000000000000000007 /* HomeView.swift */, B00000000000000000000008 /* GameView.swift */, B00000000000000000000009 /* PaywallView.swift */, B00000000000000000000010 /* AccountView.swift */, B00000000000000000000013 /* AvatarCropView.swift */,); path = Views; sourceTree = "<group>"; };
+		G00000000000000000000007 /* TicTacToeEasyGoTests */ = {isa = PBXGroup; children = (B0000000000000000000000A /* GameEngineTests.swift */,); path = TicTacToeEasyGoTests; sourceTree = "<group>"; };
+		G00000000000000000000008 /* Frameworks */ = {isa = PBXGroup; children = (B0000000000000000000000D /* XCTest.framework */,); name = Frameworks; sourceTree = "<group>"; };
+		G00000000000000000000009 /* Products */ = {isa = PBXGroup; children = (B0000000000000000000000B /* TicTacToeEasyGo.app */, B0000000000000000000000C /* TicTacToeEasyGoTests.xctest */,); name = Products; sourceTree = "<group>"; };
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		D00000000000000000000001 /* TicTacToeEasyGo */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = H00000000000000000000002;
+			buildPhases = (F00000000000000000000003 /* Sources */, F00000000000000000000001 /* Frameworks */, F00000000000000000000005 /* Resources */);
+			buildRules = ();
+			dependencies = ();
+			name = TicTacToeEasyGo;
+			packageProductDependencies = (L00000000000000000000002 /* Supabase */,);
+			productName = TicTacToeEasyGo;
+			productReference = B0000000000000000000000B /* TicTacToeEasyGo.app */;
+			productType = "com.apple.product-type.application";
+		};
+		D00000000000000000000002 /* TicTacToeEasyGoTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = H00000000000000000000003;
+			buildPhases = (F00000000000000000000004 /* Sources */, F00000000000000000000002 /* Frameworks */, F00000000000000000000006 /* Resources */);
+			buildRules = ();
+			dependencies = (I00000000000000000000001,);
+			name = TicTacToeEasyGoTests;
+			productName = TicTacToeEasyGoTests;
+			productReference = B0000000000000000000000C /* TicTacToeEasyGoTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		E00000000000000000000001 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 2660;
+				LastUpgradeCheck = 2660;
+				TargetAttributes = {
+					D00000000000000000000001 = {CreatedOnToolsVersion = 26.6; };
+					D00000000000000000000002 = {CreatedOnToolsVersion = 26.6; TestTargetID = D00000000000000000000001; };
+				};
+			};
+			buildConfigurationList = H00000000000000000000001;
+			compatibilityVersion = "Xcode 16.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (en, Base);
+			mainGroup = G00000000000000000000001;
+			packageReferences = (L00000000000000000000001 /* XCRemoteSwiftPackageReference "supabase-swift" */,);
+			productRefGroup = G00000000000000000000009 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (D00000000000000000000001 /* TicTacToeEasyGo */, D00000000000000000000002 /* TicTacToeEasyGoTests */);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		F00000000000000000000005 = {isa = PBXResourcesBuildPhase; buildActionMask = 2147483647; files = (); runOnlyForDeploymentPostprocessing = 0; };
+		F00000000000000000000006 = {isa = PBXResourcesBuildPhase; buildActionMask = 2147483647; files = (); runOnlyForDeploymentPostprocessing = 0; };
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		F00000000000000000000003 /* Sources */ = {isa = PBXSourcesBuildPhase; buildActionMask = 2147483647; files = (A00000000000000000000001, A00000000000000000000002, A00000000000000000000003, A00000000000000000000004, A00000000000000000000005, A00000000000000000000006, A00000000000000000000007, A00000000000000000000008, A00000000000000000000009, A0000000000000000000000D, A0000000000000000000000E, A0000000000000000000000F, A00000000000000000000010,); runOnlyForDeploymentPostprocessing = 0; };
+		F00000000000000000000004 /* Sources */ = {isa = PBXSourcesBuildPhase; buildActionMask = 2147483647; files = (A0000000000000000000000A,); runOnlyForDeploymentPostprocessing = 0; };
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		I00000000000000000000001 = {isa = PBXTargetDependency; target = D00000000000000000000001; targetProxy = C00000000000000000000001; };
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		J00000000000000000000001 /* Debug */ = {isa = XCBuildConfiguration; buildSettings = {ALWAYS_SEARCH_USER_PATHS = NO; CLANG_ENABLE_MODULES = YES; CLANG_ENABLE_OBJC_ARC = YES; COPY_PHASE_STRIP = NO; DEBUG_INFORMATION_FORMAT = dwarf; ENABLE_TESTABILITY = YES; GCC_C_LANGUAGE_STANDARD = gnu17; GCC_OPTIMIZATION_LEVEL = 0; IPHONEOS_DEPLOYMENT_TARGET = 17.0; MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE; ONLY_ACTIVE_ARCH = YES; SDKROOT = iphoneos; SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)"; SWIFT_OPTIMIZATION_LEVEL = "-Onone"; SWIFT_VERSION = 5.0; };
+			name = Debug;
+		};
+		J00000000000000000000002 /* Release */ = {isa = XCBuildConfiguration; buildSettings = {ALWAYS_SEARCH_USER_PATHS = NO; CLANG_ENABLE_MODULES = YES; CLANG_ENABLE_OBJC_ARC = YES; COPY_PHASE_STRIP = NO; DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym"; ENABLE_NS_ASSERTIONS = NO; GCC_C_LANGUAGE_STANDARD = gnu17; IPHONEOS_DEPLOYMENT_TARGET = 17.0; MTL_ENABLE_DEBUG_INFO = NO; SDKROOT = iphoneos; SWIFT_COMPILATION_MODE = wholemodule; SWIFT_OPTIMIZATION_LEVEL = "-O"; SWIFT_VERSION = 5.0; VALIDATE_PRODUCT = YES; };
+			name = Release;
+		};
+		J00000000000000000000003 /* Debug */ = {isa = XCBuildConfiguration; baseConfigurationReference = B00000000000000000000012 /* Config.xcconfig */; buildSettings = {ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES; CODE_SIGN_STYLE = Automatic; CURRENT_PROJECT_VERSION = 1; DEVELOPMENT_TEAM = ""; ENABLE_PREVIEWS = YES; GENERATE_INFOPLIST_FILE = NO; INFOPLIST_FILE = TicTacToeEasyGo/Info.plist; MARKETING_VERSION = 1.0; PRODUCT_BUNDLE_IDENTIFIER = com.km6750.tictactoeeasygo; PRODUCT_NAME = "$(TARGET_NAME)"; SUPPORTED_PLATFORMS = "iphoneos iphonesimulator"; SUPPORTS_MACCATALYST = NO; SWIFT_EMIT_LOC_STRINGS = YES; SWIFT_VERSION = 5.0; TARGETED_DEVICE_FAMILY = 1; };
+			name = Debug;
+		};
+		J00000000000000000000004 /* Release */ = {isa = XCBuildConfiguration; baseConfigurationReference = B00000000000000000000012 /* Config.xcconfig */; buildSettings = {ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES; CODE_SIGN_STYLE = Automatic; CURRENT_PROJECT_VERSION = 1; DEVELOPMENT_TEAM = ""; ENABLE_PREVIEWS = YES; GENERATE_INFOPLIST_FILE = NO; INFOPLIST_FILE = TicTacToeEasyGo/Info.plist; MARKETING_VERSION = 1.0; PRODUCT_BUNDLE_IDENTIFIER = com.km6750.tictactoeeasygo; PRODUCT_NAME = "$(TARGET_NAME)"; SUPPORTED_PLATFORMS = "iphoneos iphonesimulator"; SUPPORTS_MACCATALYST = NO; SWIFT_EMIT_LOC_STRINGS = YES; SWIFT_VERSION = 5.0; TARGETED_DEVICE_FAMILY = 1; };
+			name = Release;
+		};
+		J00000000000000000000005 /* Debug */ = {isa = XCBuildConfiguration; buildSettings = {BUNDLE_LOADER = "$(TEST_HOST)"; CODE_SIGN_STYLE = Automatic; GENERATE_INFOPLIST_FILE = YES; IPHONEOS_DEPLOYMENT_TARGET = 17.0; PRODUCT_BUNDLE_IDENTIFIER = com.km6750.tictactoeeasygo.tests; PRODUCT_NAME = "$(TARGET_NAME)"; SWIFT_VERSION = 5.0; TARGETED_DEVICE_FAMILY = 1; TEST_HOST = "$(BUILT_PRODUCTS_DIR)/TicTacToeEasyGo.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/TicTacToeEasyGo"; };
+			name = Debug;
+		};
+		J00000000000000000000006 /* Release */ = {isa = XCBuildConfiguration; buildSettings = {BUNDLE_LOADER = "$(TEST_HOST)"; CODE_SIGN_STYLE = Automatic; GENERATE_INFOPLIST_FILE = YES; IPHONEOS_DEPLOYMENT_TARGET = 17.0; PRODUCT_BUNDLE_IDENTIFIER = com.km6750.tictactoeeasygo.tests; PRODUCT_NAME = "$(TARGET_NAME)"; SWIFT_VERSION = 5.0; TARGETED_DEVICE_FAMILY = 1; TEST_HOST = "$(BUILT_PRODUCTS_DIR)/TicTacToeEasyGo.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/TicTacToeEasyGo"; };
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		H00000000000000000000001 = {isa = XCConfigurationList; buildConfigurations = (J00000000000000000000001 /* Debug */, J00000000000000000000002 /* Release */,); defaultConfigurationIsVisible = 0; defaultConfigurationName = Release; };
+		H00000000000000000000002 = {isa = XCConfigurationList; buildConfigurations = (J00000000000000000000003 /* Debug */, J00000000000000000000004 /* Release */,); defaultConfigurationIsVisible = 0; defaultConfigurationName = Release; };
+		H00000000000000000000003 = {isa = XCConfigurationList; buildConfigurations = (J00000000000000000000005 /* Debug */, J00000000000000000000006 /* Release */,); defaultConfigurationIsVisible = 0; defaultConfigurationName = Release; };
+/* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		L00000000000000000000001 /* XCRemoteSwiftPackageReference "supabase-swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/supabase/supabase-swift.git";
+			requirement = {kind = upToNextMajorVersion; minimumVersion = 2.0.0; };
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		L00000000000000000000002 /* Supabase */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = L00000000000000000000001 /* XCRemoteSwiftPackageReference "supabase-swift" */;
+			productName = Supabase;
+		};
+/* End XCSwiftPackageProductDependency section */
+	};
+	rootObject = E00000000000000000000001 /* Project object */;
+}
