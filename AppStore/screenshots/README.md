@@ -2,7 +2,7 @@
 
 Use a signed-out guest session so no real name, email or avatar appears. Keep the Simulator status bar consistent (09:41, full Wi-Fi and battery) and capture at native resolution.
 
-The completed English (U.S.) upload set is in `upload/iphone-6.9-en-US/`. Upload these five JPEG files to App Store Connect: they are 1320×2868, have no alpha channel, use a signed-out guest session, and were visually checked after export. The archival PNG captures are in `final/iphone-6.9-en-US/`; `qa/` contains small/large-device layout checks; `source/iphone-17-pro/` keeps the earlier 1206×2622 source captures.
+The completed English (U.S.) upload sets are in `upload/`. The current App Store Connect version form exposes a 6.5-inch slot, so use the five JPEG files in `upload/iphone-6.5-en-US/` (1284×2778). The native 6.9-inch alternatives are in `upload/iphone-6.9-en-US/` (1320×2868). Both sets have no alpha channel, use a signed-out guest session, and were visually checked after export. The archival PNG captures are in `final/iphone-6.9-en-US/`; `qa/` contains small/large-device layout checks; `source/iphone-17-pro/` keeps the earlier 1206×2622 source captures.
 
 ## English (U.S.) set
 
