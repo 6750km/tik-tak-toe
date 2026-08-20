@@ -1,0 +1,24 @@
+.contact-disclosure {
+  margin-top: 34px;
+}
+
+.consent {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.consent input[type="checkbox"] {
+  flex: 0 0 20px;
+  width: 20px;
+  height: 20px;
+  margin: 3px 0 0;
+}
+
+.consent span {
+  min-width: 0;
+}
+
+.support-message-body {
+  white-space: pre-wrap;
+}

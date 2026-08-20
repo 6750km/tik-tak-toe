@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Support — Tic Tac Toe Easy Go</title>
+  <meta name="description" content="Help and secure contact form for Tic Tac Toe Easy Go.">
+  <link rel="stylesheet" href="/styles.css?v=20260820-1">
+  <link rel="stylesheet" href="/support.css?v=20260816-1">
+  <script data-turnstile-api src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit" async defer></script>
+</head>
+<body>
+  <header class="wrap top">
+    <a class="brand" href="/"><span class="mark">×○</span><span>Kiki Apps</span></a>
+    <nav class="nav"><a href="/tic-tac-toe-easy-go/support">Support</a><a href="/tic-tac-toe-easy-go/privacy">Privacy</a></nav>
+  </header>
+  <main class="wrap">
+    <section class="hero">
+      <p class="eyebrow">Tic Tac Toe Easy Go</p>
+      <h1>How can we help?</h1>
+      <p class="lede">The game is free and works without an account. Use the guide below or contact us if you still need help.</p>
+    </section>
+    <section class="grid">
+      <article class="item"><h2>Sign in</h2><p>Use the email and password chosen when you created the account. Confirm your email first if the app asks you to.</p></article>
+      <article class="item"><h2>Reset a password</h2><p>Tap <strong>Forgot password?</strong>, enter the same email, then open the newest reset email on the iPhone where the app is installed.</p></article>
+      <article class="item"><h2>No email arrived</h2><p>Check Spam and Promotions, wait a few minutes, and request one new email. Older links may expire after a newer request.</p></article>
+      <article class="item"><h2>Delete an account</h2><p>Open Account in the app, choose <strong>Delete account</strong>, read the warning, and confirm permanent deletion.</p></article>
+    </section>
+    <details class="contact-disclosure" id="contact-support">
+      <summary>Still need help? Contact support</summary>
+      <section class="card">
+        <h2>Contact support</h2>
+        <p class="small">Please do not include passwords, verification codes, payment information, or other sensitive data.</p>
+        <form id="support-form" method="post" action="/api/support">
+          <div class="honeypot" aria-hidden="true"><label for="website">Leave this empty</label><input id="website" name="website" tabindex="-1" autocomplete="off"></div>
+          <label for="name">Name</label><input id="name" name="name" maxlength="80" autocomplete="name" required>
+          <label for="email">Email for our reply</label><input id="email" name="email" type="email" maxlength="160" autocomplete="email" required>
+          <label for="topic">Topic</label><select id="topic" name="topic"><option>Sign in or account</option><option>Password reset</option><option>Profile photo</option><option>Gameplay</option><option>Privacy or deletion</option><option>Other</option></select>
+          <label for="message">Message</label><textarea id="message" name="message" minlength="10" maxlength="3000" required></textarea>
+          <label class="consent"><input type="checkbox" name="privacy_ack" value="yes" required><span>I have read the <a class="inline-link" href="/tic-tac-toe-easy-go/privacy">Privacy Policy</a>.</span></label>
+          <div id="turnstile-widget" class="cf-turnstile"></div>
+          <button id="send" type="submit">Send message</button>
+          <p id="form-status" class="status" role="status" aria-live="polite"></p>
+        </form>
+      </section>
+    </details>
+  </main>
+  <footer><div class="wrap">© 2026 Kiki Apps · <a class="inline-link" href="/tic-tac-toe-easy-go/privacy">Privacy Policy</a></div></footer>
+  <script>
+    const disclosure = document.querySelector('#contact-support');
+    const form = document.querySelector('#support-form');
+    const status = document.querySelector('#form-status');
+    const send = document.querySelector('#send');
+    const turnstileScript = document.querySelector('[data-turnstile-api]');
+    let widgetId;
+
+    function renderTurnstile() {
+      if (widgetId === undefined && window.turnstile) {
+        widgetId = window.turnstile.render('#turnstile-widget', {
+          sitekey: '0x4AAAAAAEQ_xD0Vrnkml5gH',
+          theme: 'auto'
+        });
+      }
+    }
+
+    disclosure.addEventListener('toggle', () => {
+      if (disclosure.open) renderTurnstile();
+    });
+
+    turnstileScript.addEventListener('load', () => {
+      if (disclosure.open) renderTurnstile();
+    });
+
+    turnstileScript.addEventListener('error', () => {
+      if (disclosure.open) status.textContent = 'Security check could not be loaded. Please refresh the page and try again.';
+    });
+
+    form.addEventListener('submit', async event => {
+      event.preventDefault();
+      send.disabled = true;
+      status.textContent = 'Sending…';
+      try {
+        const response = await fetch(form.action, {
+          method: 'POST',
+          body: new FormData(form),
+          headers: { Accept: 'application/json' }
+        });
+        const raw = await response.text();
+        let data = {};
+        if (raw) {
+          try { data = JSON.parse(raw); } catch { data = {}; }
+        }
+        if (!response.ok) throw new Error(data.error || 'Message could not be sent. Please try again later.');
+        form.reset();
+        if (window.turnstile && widgetId !== undefined) window.turnstile.reset(widgetId);
+        status.textContent = 'Thank you. Your message was sent.';
+      } catch (error) {
+        status.textContent = error instanceof Error ? error.message : 'Message could not be sent. Please try again later.';
+      } finally {
+        send.disabled = false;
+      }
+    });
+
+    if (disclosure.open) renderTurnstile();
+  </script>
+</body>
+</html>
