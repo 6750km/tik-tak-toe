@@ -3,3 +3,6 @@
 // The publishable key is designed for mobile/web clients. Never place a service_role key here.
 SUPABASE_HOST = ojgiadlylraaugqwjqbr.supabase.co
 SUPABASE_PUBLISHABLE_KEY = sb_publishable_0nJMQYSGgtOxnACEY8Km5w_YXGoZuNg
+
+// Use the production App Store icon set from Assets.xcassets.
+ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon

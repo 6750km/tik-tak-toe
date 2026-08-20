@@ -1,5 +1,7 @@
 # Tic Tac Toe Easy Go
 
+The first App Store release is completely free: all game modes are available without game limits or purchases. The dormant monetization flow is controlled by `ReleaseFeatures.monetizationEnabled` and must only be enabled for a later release with configured StoreKit products.
+
 Native iPhone app built with SwiftUI.
 
 ## Build

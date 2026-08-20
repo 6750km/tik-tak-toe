@@ -22,7 +22,7 @@ struct RootView: View {
         .tint(.indigo)
         .preferredColorScheme(preferredColorScheme)
         .task(id: auth.user?.id) {
-            guard auth.isAuthenticated else { return }
+            guard ReleaseFeatures.monetizationEnabled, auth.isAuthenticated else { return }
             if await auth.claimWelcomeGames(guestGamesRemaining: quota.gamesRemaining) {
                 quota.markGuestGamesTransferred()
             }

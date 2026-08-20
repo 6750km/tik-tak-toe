@@ -29,6 +29,8 @@ enum CopyKey: String {
     case preparingPasswordReset, passwordRequirements, photoTooLarge, photoLoadFailed
     case avatarNotSignedIn, avatarStoragePermissionDenied, avatarOutputTooLarge
     case avatarStorageUploadFailed, avatarProfileUpdateFailed
+    case support, privacyPolicy, deleteAccount, deleteAccountTitle, deleteAccountMessage
+    case deleteAccountConfirm, accountDeleted, accountDeletionFailed
 }
 
 struct AppCopy {
@@ -70,7 +72,12 @@ struct AppCopy {
             .avatarStoragePermissionDenied: "The photo file was not uploaded: Supabase Storage denied write access for this account.",
             .avatarOutputTooLarge: "The cropped photo is larger than the 2 MB storage limit.",
             .avatarStorageUploadFailed: "The photo file could not be uploaded to Supabase Storage. Check your connection and retry.",
-            .avatarProfileUpdateFailed: "The photo file was uploaded, but your profile could not be linked to it. Retry or contact support."
+            .avatarProfileUpdateFailed: "The photo file was uploaded, but your profile could not be linked to it. Retry or contact support.",
+            .support: "Support", .privacyPolicy: "Privacy Policy", .deleteAccount: "Delete account",
+            .deleteAccountTitle: "Delete your account?",
+            .deleteAccountMessage: "Your account, profile, usage data, and profile photos will be permanently deleted. This cannot be undone.",
+            .deleteAccountConfirm: "Delete permanently", .accountDeleted: "Your account and data were deleted.",
+            .accountDeletionFailed: "Your account could not be deleted. Check your connection and try again."
         ],
         .spanish: [
             .appName: "Tic Tac Toe Easy Go", .chooseMode: "Elige una partida", .beginner: "Principiante",
@@ -99,7 +106,12 @@ struct AppCopy {
             .avatarStoragePermissionDenied: "La foto no se ha subido: Supabase Storage ha denegado el permiso de escritura de esta cuenta.",
             .avatarOutputTooLarge: "La foto recortada supera el límite de almacenamiento de 2 MB.",
             .avatarStorageUploadFailed: "No se ha podido subir la foto a Supabase Storage. Comprueba la conexión e inténtalo de nuevo.",
-            .avatarProfileUpdateFailed: "La foto se ha subido, pero no se ha podido vincular al perfil. Inténtalo de nuevo o contacta con soporte."
+            .avatarProfileUpdateFailed: "La foto se ha subido, pero no se ha podido vincular al perfil. Inténtalo de nuevo o contacta con soporte.",
+            .support: "Soporte", .privacyPolicy: "Política de privacidad", .deleteAccount: "Eliminar cuenta",
+            .deleteAccountTitle: "¿Eliminar tu cuenta?",
+            .deleteAccountMessage: "Tu cuenta, perfil, datos de uso y fotos de perfil se eliminarán permanentemente. Esta acción no se puede deshacer.",
+            .deleteAccountConfirm: "Eliminar permanentemente", .accountDeleted: "Tu cuenta y tus datos se han eliminado.",
+            .accountDeletionFailed: "No se ha podido eliminar tu cuenta. Comprueba la conexión e inténtalo de nuevo."
         ],
         .russian: [
             .appName: "Tic Tac Toe Easy Go", .chooseMode: "Выберите игру", .beginner: "Новичок",
@@ -128,7 +140,12 @@ struct AppCopy {
             .avatarStoragePermissionDenied: "Файл фото не загружен: Supabase Storage запретил запись для этого аккаунта.",
             .avatarOutputTooLarge: "Обрезанное фото превышает лимит хранилища 2 МБ.",
             .avatarStorageUploadFailed: "Не удалось загрузить файл фото в Supabase Storage. Проверьте интернет и повторите попытку.",
-            .avatarProfileUpdateFailed: "Файл загружен, но не удалось привязать его к профилю. Повторите попытку или обратитесь в поддержку."
+            .avatarProfileUpdateFailed: "Файл загружен, но не удалось привязать его к профилю. Повторите попытку или обратитесь в поддержку.",
+            .support: "Поддержка", .privacyPolicy: "Политика конфиденциальности", .deleteAccount: "Удалить аккаунт",
+            .deleteAccountTitle: "Удалить аккаунт?",
+            .deleteAccountMessage: "Аккаунт, профиль, данные об использовании и фотографии профиля будут удалены навсегда. Это действие нельзя отменить.",
+            .deleteAccountConfirm: "Удалить навсегда", .accountDeleted: "Аккаунт и связанные данные удалены.",
+            .accountDeletionFailed: "Не удалось удалить аккаунт. Проверьте интернет и повторите попытку."
         ]
     ]
 }

@@ -48,6 +48,7 @@ struct GameView: View {
             }
         }
         .onChange(of: engine.result) { _, newResult in
+            guard ReleaseFeatures.monetizationEnabled else { return }
             guard newResult != .inProgress, !didRecordCurrentGame else { return }
             didRecordCurrentGame = true
             if auth.isAuthenticated {
@@ -131,10 +132,12 @@ struct GameView: View {
     }
 
     private func restart() {
-        let canStart = auth.isAuthenticated ? auth.bonusGamesRemaining > 0 : quota.canStartGame
-        guard canStart else {
-            dismiss()
-            return
+        if ReleaseFeatures.monetizationEnabled {
+            let canStart = auth.isAuthenticated ? auth.bonusGamesRemaining > 0 : quota.canStartGame
+            guard canStart else {
+                dismiss()
+                return
+            }
         }
         engine.reset()
         didRecordCurrentGame = false

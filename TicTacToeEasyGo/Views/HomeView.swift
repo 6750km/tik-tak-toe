@@ -38,7 +38,12 @@ struct HomeView: View {
             VStack(spacing: 14) {
                 modeButton(.beginner, title: copy.text(.beginner), icon: "face.smiling")
                 modeButton(.professional, title: copy.text(.professional), icon: "brain.head.profile")
-                modeButton(.twoPlayers, title: copy.text(.twoPlayers), icon: "person.2.fill", locked: true)
+                modeButton(
+                    .twoPlayers,
+                    title: copy.text(.twoPlayers),
+                    icon: "person.2.fill",
+                    locked: ReleaseFeatures.monetizationEnabled
+                )
             }
 
             Group {
@@ -127,7 +132,9 @@ struct HomeView: View {
 
     private func modeButton(_ mode: GameMode, title: String, icon: String, locked: Bool = false) -> some View {
         Button {
-            if locked {
+            if !ReleaseFeatures.monetizationEnabled {
+                selectedMode = mode
+            } else if locked {
                 showingPaywall = true
             } else if auth.isAuthenticated {
                 isCheckingGameAccess = true
@@ -173,10 +180,12 @@ struct HomeView: View {
     }
 
     private var canStartGame: Bool {
-        auth.isAuthenticated ? auth.bonusGamesRemaining > 0 : quota.canStartGame
+        guard ReleaseFeatures.monetizationEnabled else { return true }
+        return auth.isAuthenticated ? auth.bonusGamesRemaining > 0 : quota.canStartGame
     }
 
     private var remainingGamesText: String {
+        guard ReleaseFeatures.monetizationEnabled else { return copy.text(.unlimited) }
         if quota.hasUnlimitedAccess { return copy.text(.unlimited) }
         return copy.gamesRemaining(auth.isAuthenticated ? auth.bonusGamesRemaining : quota.gamesRemaining)
     }

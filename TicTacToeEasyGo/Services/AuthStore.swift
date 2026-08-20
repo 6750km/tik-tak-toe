@@ -120,6 +120,36 @@ final class AuthStore: ObservableObject {
         await perform { try await client.auth.signOut() }
     }
 
+    @discardableResult
+    func deleteAccount() async -> Bool {
+        guard let client else {
+            configurationError()
+            return false
+        }
+        isLoading = true
+        errorMessage = nil
+        noticeMessage = nil
+        defer { isLoading = false }
+
+        do {
+            let session = try await client.auth.session
+            let userFolder = session.user.id.uuidString.lowercased()
+            let files = try await client.storage.from("avatars").list(path: userFolder)
+            let paths = files.map { "\(userFolder)/\($0.name)" }
+            if !paths.isEmpty {
+                try await client.storage.from("avatars").remove(paths: paths)
+            }
+
+            try await client.rpc("delete_account").execute()
+            try await client.auth.signOut(scope: .local)
+            noticeMessage = "Your account and data were deleted."
+            return true
+        } catch {
+            errorMessage = error.localizedDescription
+            return false
+        }
+    }
+
     func sendPasswordReset(email: String) async {
         guard let client else { return configurationError() }
         await perform {

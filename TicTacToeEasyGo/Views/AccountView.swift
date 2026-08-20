@@ -80,7 +80,8 @@ private struct AuthView: View {
                         await auth.signUp(name: name, email: email, password: password)
                     } else {
                         guard await auth.signIn(email: email, password: password) else { return }
-                        if await auth.claimWelcomeGames(guestGamesRemaining: quota.gamesRemaining) {
+                        if ReleaseFeatures.monetizationEnabled,
+                           await auth.claimWelcomeGames(guestGamesRemaining: quota.gamesRemaining) {
                             quota.markGuestGamesTransferred()
                         }
                         guard await auth.loadProfile() else { return }
@@ -202,6 +203,7 @@ private struct ProfileView: View {
     @State private var selectedPhoto: PhotosPickerItem?
     @State private var cropSelection: AvatarCropSelection?
     @State private var photoSelectionError: String?
+    @State private var showingDeleteConfirmation = false
 
     private let maxSourcePhotoBytes = 10 * 1024 * 1024
 
@@ -222,10 +224,22 @@ private struct ProfileView: View {
             Section(copy.text(.profile)) {
                 LabeledContent(copy.text(.name), value: auth.displayName)
                 LabeledContent(copy.text(.email), value: auth.user?.email ?? "")
-                LabeledContent(copy.text(.bonusGames), value: "\(auth.bonusGamesRemaining)")
+                if ReleaseFeatures.monetizationEnabled {
+                    LabeledContent(copy.text(.bonusGames), value: "\(auth.bonusGamesRemaining)")
+                }
             }
             Button(copy.text(.signOut), role: .destructive) {
                 Task { await auth.signOut() }
+            }
+            Section {
+                Link(copy.text(.support), destination: URL(string: "https://kiki-apps.uk/tic-tac-toe-easy-go/support")!)
+                Link(copy.text(.privacyPolicy), destination: URL(string: "https://kiki-apps.uk/tic-tac-toe-easy-go/privacy")!)
+            }
+            Section {
+                Button(copy.text(.deleteAccount), role: .destructive) {
+                    showingDeleteConfirmation = true
+                }
+                .disabled(auth.isLoading)
             }
             if let error = auth.errorMessage { Text(error).foregroundStyle(.red) }
             if let photoSelectionError { Text(photoSelectionError).foregroundStyle(.red) }
@@ -257,6 +271,22 @@ private struct ProfileView: View {
                 if error == nil { selectedPhoto = nil }
                 return error
             }
+        }
+        .confirmationDialog(
+            copy.text(.deleteAccountTitle),
+            isPresented: $showingDeleteConfirmation,
+            titleVisibility: .visible
+        ) {
+            Button(copy.text(.deleteAccountConfirm), role: .destructive) {
+                Task {
+                    if !(await auth.deleteAccount()) {
+                        photoSelectionError = copy.text(.accountDeletionFailed)
+                    }
+                }
+            }
+            Button(copy.text(.cancel), role: .cancel) {}
+        } message: {
+            Text(copy.text(.deleteAccountMessage))
         }
     }
 

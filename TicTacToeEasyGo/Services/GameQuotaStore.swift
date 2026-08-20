@@ -1,5 +1,11 @@
 import Foundation
 
+enum ReleaseFeatures {
+    // The first App Store release is completely free. Keep the monetization
+    // implementation dormant so it can be enabled deliberately in a later release.
+    static let monetizationEnabled = false
+}
+
 @MainActor
 final class GameQuotaStore: ObservableObject {
     static let guestAllowance = 10
