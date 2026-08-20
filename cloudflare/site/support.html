@@ -5,9 +5,9 @@
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>Support — Tic Tac Toe Easy Go</title>
   <meta name="description" content="Help and secure contact form for Tic Tac Toe Easy Go.">
-  <link rel="stylesheet" href="/styles.css?v=20260815-2">
+  <link rel="stylesheet" href="/styles.css?v=20260820-1">
   <link rel="stylesheet" href="/support.css?v=20260816-1">
-  <script src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit" async defer></script>
+  <script data-turnstile-api src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit" async defer></script>
 </head>
 <body>
   <header class="wrap top">
@@ -51,6 +51,7 @@
     const form = document.querySelector('#support-form');
     const status = document.querySelector('#form-status');
     const send = document.querySelector('#send');
+    const turnstileScript = document.querySelector('[data-turnstile-api]');
     let widgetId;
 
     function renderTurnstile() {
@@ -64,6 +65,14 @@
 
     disclosure.addEventListener('toggle', () => {
       if (disclosure.open) renderTurnstile();
+    });
+
+    turnstileScript.addEventListener('load', () => {
+      if (disclosure.open) renderTurnstile();
+    });
+
+    turnstileScript.addEventListener('error', () => {
+      if (disclosure.open) status.textContent = 'Security check could not be loaded. Please refresh the page and try again.';
     });
 
     form.addEventListener('submit', async event => {
